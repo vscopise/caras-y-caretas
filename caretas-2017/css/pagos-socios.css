@@ -1,0 +1,84 @@
+.socios, .socios h3, .socios h4 {
+    font-family: Arial, Helvetica, "sans-serif";
+}
+.socios .mh-section {
+    margin-bottom: 1rem;
+}
+.socios h3, .socios h2, .socios h4 {
+    margin-bottom: 1rem;
+}
+.monto {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+}
+.monto.selected {
+    background: #ccc;
+    
+}
+.monto:hover {
+    background: #ccc;
+    cursor: pointer;
+}
+.socios input[type=email] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+}
+.socios p.submit {
+    text-align: center;
+    margin-top: 2rem;
+}
+.socios input[type=submit] {
+    box-sizing: border-box;
+    font-size: 1.5rem;
+}
+.socios .resumen {
+    background: #dedede;
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    
+}
+.socios .resumen p {
+    margin-bottom: 0;
+}
+.socios .resumen .resumen-monto {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: red;
+}
+.socios #pay .title {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+.socios #pay .title span {
+    float: right;
+    color: #666;
+    font-size: .7rem;
+}
+.socios #pay .title img {
+    width: 120px;
+    height: auto;
+}
+.socios #pay span {
+    width: 50%;
+    text-align: right;
+    display: inline-block;
+}
+.socios #pay input[type=text] {
+    width: 200px;
+    display: inline-block;
+}
+.socios #pay #cardExpirationYear,
+.socios #pay #docNumber {
+    width: 100px;
+}
+.socios .terminos {
+    font-size: 0.7rem;
+    color: #666;
+}

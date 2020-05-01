@@ -1,0 +1,23 @@
+#cyc_home_gallery_images {
+    margin: 20px 0;
+}
+#cyc_home_gallery_images .img_item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    margin-right: 10px;
+}
+#cyc_home_gallery_images span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    color: #f03;
+    background: #fff;
+    cursor: pointer;
+}
+#cyc_home_gallery_images .img_item {
+    
+}

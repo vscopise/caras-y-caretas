@@ -1,0 +1,27 @@
+.fixedBar {display: block; }
+.fixedBar{border-top: 1px solid #ccc; width: 100%; border-left: 0; bottom: 0px; right: -5000px; position:fixed; z-index:99999; float:left; vertical-align:middle; margin: 0px 0 0; opacity: 0.95; }
+.fixedBar span {float: left; padding: 10px; line-height: 45px; font-size: 1.5rem; font-family: 'Oswald', Helvetica, Arial, sans-serif; font-weight: 900;}
+#tips { padding: 10px; }
+#tips, #tips li{ margin:0; list-style:none; }
+#tips{width:100%; font-size:20px; line-height:120%;}
+#tips li{display: inline-block; border-radius: 5px; float: left; margin-right: 5px; margin-bottom: 10px; 
+   width: 45px;height: 45px;}
+#tips li.fb {background-color: #3b5998;}
+#tips li.tw {background-color: #55acee;}
+#tips li.wh {background-color: #43d854;}
+#tips li.gp {background-color: #dc4e41;}
+#tips li.ml {background-color: #777777;}
+#tips li.pl {background-color: #777777; cursor: pointer;}
+#tips li.top {float: right; margin-right: 15px; }
+#tips li.top a {color: #000; }
+#tips li a{color: #fff; line-height: 55px;}
+#tips li a:hover{text-decoration: none;}
+#tips li a .fa { font-size: 30px; }
+.fixedBar .boxfloat { text-align: center; margin: 0 auto; height: 65px; background: #fff;}
+@media only screen and (max-width: 980px){
+    #tips li { width: 34px; height: 34px; margin-right: 10px; }
+    #tips li a { line-height: 34px; }
+    #tips li a .fa { font-size: inherit; }
+    .fixedBar span { display: none; }
+}
+#upprev_box { bottom: 75px; }
