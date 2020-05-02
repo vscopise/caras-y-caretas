@@ -21,7 +21,7 @@ $img_placeholder = get_stylesheet_directory_uri() . '/assets/images/img_placehol
             }
             $cabezal_post[$i]['title'] = get_the_title();
             if (has_post_thumbnail()) {
-                $cabezal_post[$i]['image'] = get_the_post_thumbnail_url();
+                $cabezal_post[$i]['image'] = get_the_post_thumbnail_url():
             }
             $i++;
         endforeach; endif;
