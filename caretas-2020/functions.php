@@ -3,50 +3,94 @@
 /***** Estilos padre e hijo *****/
 function cyc_enqueue_parent_styles()
 {
-
+    $version = mt_rand();
     if (WP_DEBUG == true) {
         wp_enqueue_style(
             'parent-styles',
-            get_template_directory_uri() . '/style.css'
+            get_template_directory_uri() . '/style.css',
+            '',
+            $version
         );
         wp_enqueue_style(
             'child-styles',
             get_stylesheet_directory_uri() . '/assets/styles/style.css',
-            array('parent-styles')
+            array('parent-styles'),
+            $version
         );
-        if ( is_front_page() ) {
+        if (is_front_page()) {
             wp_enqueue_style(
                 'front-page-styles',
                 get_stylesheet_directory_uri() . '/assets/styles/front-page-styles.css',
-                array('parent-styles')
+                array('parent-styles'),
+                $version
             );
         }
     } else {
-        $random = mt_rand();
         wp_enqueue_style(
-            'parent-styles-minified',
+            'parent-styles',
             get_stylesheet_directory_uri() . '/assets/styles/parent-styles.min.css',
             '',
-            $random
+            $version
         );
         wp_enqueue_style(
-            'child-styles-minified',
+            'child-styles',
             get_stylesheet_directory_uri() . '/assets/styles/styles.min.css',
-            array('parent-styles-minified')
+            array('parent-styles-minified'),
+            $version
         );
-        if ( is_front_page() ) {
+        if (is_front_page()) {
             wp_enqueue_style(
-                'front-page-styles-minified',
+                'front-page-styles',
                 get_stylesheet_directory_uri() . '/assets/styles/front-page-styles.min.css',
-                array('parent-styles-minified')
+                array('parent-styles-minified'),
+                $version
             );
         }
     }
-
-    //wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' . '.css' );
-    //wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/css/styles.css', NULL, filemtime( get_stylesheet_directory() . '/css/styles.css' ) );
 }
 add_action('wp_enqueue_scripts', 'cyc_enqueue_parent_styles');
+
+function cyc_theme_scripts()
+{
+    $version = mt_rand();
+    if (WP_DEBUG == true) {
+        wp_enqueue_script(
+            'theme_script',
+            get_stylesheet_directory_uri() . '/assets/js/theme-scripts.js',
+            array('jquery'),
+            $version,
+            true
+        );
+    } else {
+        wp_enqueue_script(
+            'theme_script',
+            get_stylesheet_directory_uri() . '/assets/js/theme-scripts.min.js',
+            array('jquery'),
+            $version,
+            true
+        );
+    }
+    wp_localize_script('theme_script', 'theme_object', array('ajaxurl' => admin_url('admin-ajax.php')));
+}
+add_action('wp_enqueue_scripts', 'cyc_theme_scripts');
+
+function cyc_header_ticker()
+{
+    $ticker_query = new WP_Query( 'posts_per_page=5' );
+
+    if( $ticker_query->have_posts()) :  while( $ticker_query->have_posts()) : $ticker_query->the_post(); 
+        $ticker_posts[] = array(
+            'title' => get_the_title(),
+            'link'  => get_the_permalink(),
+        );
+    endwhile; endif;
+
+    echo json_encode($ticker_posts);
+    die();
+}
+add_action('wp_ajax_nopriv_cyc_header_ticker', 'cyc_header_ticker');
+add_action('wp_ajax_cyc_cyc_header_ticker', 'cyc_header_ticker');
+
 
 /***** Plugins requeridos *****/
 function cyc_check_required_plugins()
@@ -59,8 +103,7 @@ add_action('admin_init', 'cyc_check_required_plugins');
 
 function cyc_alert_plugins_required()
 {
-?>
-    <div class="notice error is-dismissible">
+?><div class="notice error is-dismissible">
         <p>El plugin <a href="https://wordpress.org/plugins/zoninator/" target="_blank">Zoninator</a> es recomendado para el correcto funcionamiento del tema</p>
     </div>
 <?php

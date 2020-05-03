@@ -1,27 +1,13 @@
 <?php /* Template Name: Page - Inicio */ ?>
 <?php get_header(); ?>
 <div class="home mh-section mh-group">
-    <?php include_once( get_stylesheet_directory() . '/includes/main-home-grid.php'); ?>
-	<div id="main-content" class="home-columns">
-		<?php dynamic_sidebar('home-1'); ?>
-		<?php if (is_active_sidebar('home-2') || is_active_sidebar('home-3')) : ?>
-			<div class="mh-section mh-group">
-				<?php if (is_active_sidebar('home-2')) { ?>
-					<div class="mh-col mh-1-2 home-2">
-						<?php dynamic_sidebar('home-2'); ?>
-					</div>
-				<?php } ?>
-				<?php if (is_active_sidebar('home-3')) { ?>
-					<div class="mh-col mh-1-2 home-3">
-						<?php dynamic_sidebar('home-3'); ?>
-					</div>
-				<?php } ?>
-			</div>
-		<?php endif; ?>
-		<?php dynamic_sidebar('home-4'); ?>
-	</div>
-	<aside class="home-sidebar">
-		<?php dynamic_sidebar('home-5'); ?>
-	</aside>
+    <?php include_once( get_stylesheet_directory() . '/includes/home-main-grid.php'); ?>
+	<?php if (is_active_sidebar('home-8')) : ?>
+		<div class="w3-row grid-block">
+			<?php dynamic_sidebar('home-8'); ?>
+		</div>
+	<?php endif; ?>
+	<?php include_once( get_stylesheet_directory() . '/includes/home-grid-block.php'); ?>
+	<div id="home-bottom" class="home-columns"></div>
 </div>
 <?php get_footer(); ?>
