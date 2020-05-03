@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-    var home_bottom_displayed = false;
     var ticker_container = '<div class="header-sub clearfix"><section id="news-ticker"><span class="ticker-title">Ultimas Noticias</span></section></div>';
     $('.mh-header').append(ticker_container);
     $.ajax({
@@ -26,30 +25,4 @@ jQuery(document).ready(function ($) {
         });
     };
     setInterval(function () { tick(); }, 4000);
-
-    // Each time the user scrolls
-    $(window).scroll(function () {
-        var scrollHeight = $(document).height();
-        var scrollPos = $(window).height() + $(window).scrollTop();
-        if (((scrollHeight - 300) >= scrollPos) / scrollHeight == 0) {
-            if (!home_bottom_displayed) {
-                var loader = '<div class="home-bottom-loading"></div>';
-                $('#home-bottom').html(loader);
-                $.ajax({
-                    url: theme_object.ajaxurl,
-                    data: {
-                        action: 'cyc_home_bottom',
-                    },
-                    success: function (result) {
-                        $('#home-bottom').html(result);
-                    }
-                });
-                alert('ajax');
-                home_bottom_displayed = true;
-
-            }
-        }
-    });
-
-
 });

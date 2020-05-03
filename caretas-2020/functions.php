@@ -61,6 +61,15 @@ function cyc_theme_scripts()
             $version,
             true
         );
+        if (is_front_page()) {
+            wp_enqueue_script(
+                'front-page_script',
+                get_stylesheet_directory_uri() . '/assets/js/front-page-scripts.js',
+                array('jquery'),
+                $version,
+                true
+            );
+        }
     } else {
         wp_enqueue_script(
             'theme_script',
@@ -69,21 +78,32 @@ function cyc_theme_scripts()
             $version,
             true
         );
+        if (is_front_page()) {
+            wp_enqueue_script(
+                'front-page_script',
+                get_stylesheet_directory_uri() . '/assets/js/front-page-scripts.min.js',
+                array('jquery'),
+                $version,
+                true
+            );
+        }
     }
     wp_localize_script('theme_script', 'theme_object', array('ajaxurl' => admin_url('admin-ajax.php')));
 }
 add_action('wp_enqueue_scripts', 'cyc_theme_scripts');
 
+/***** Ticker de Noticias *****/
 function cyc_header_ticker()
 {
-    $ticker_query = new WP_Query( 'posts_per_page=5' );
+    $ticker_query = new WP_Query('posts_per_page=5');
 
-    if( $ticker_query->have_posts()) :  while( $ticker_query->have_posts()) : $ticker_query->the_post(); 
-        $ticker_posts[] = array(
-            'title' => get_the_title(),
-            'link'  => get_the_permalink(),
-        );
-    endwhile; endif;
+    if ($ticker_query->have_posts()) :  while ($ticker_query->have_posts()) : $ticker_query->the_post();
+            $ticker_posts[] = array(
+                'title' => get_the_title(),
+                'link'  => get_the_permalink(),
+            );
+        endwhile;
+    endif;
 
     echo json_encode($ticker_posts);
     die();
@@ -91,6 +111,36 @@ function cyc_header_ticker()
 add_action('wp_ajax_nopriv_cyc_header_ticker', 'cyc_header_ticker');
 add_action('wp_ajax_cyc_cyc_header_ticker', 'cyc_header_ticker');
 
+/***** Carga Ajax del Home bottom *****/
+function cyc_home_bottom()
+{
+    ob_start();
+    include('includes/home-bottom.php');
+    echo ob_get_clean();
+    die();
+}
+add_action('wp_ajax_nopriv_cyc_home_bottom', 'cyc_home_bottom');
+add_action('wp_ajax_cyc_cyc_home_bottom', 'cyc_home_bottom');
+
+/***** Zonas de Widgets adicionales *****/
+function cyc_widgets_init()
+{
+    register_sidebar(array('name' => 'Home 6 - First Column (Bottom)', 'id' => 'home-6', 'before_widget' => '<div id="%1$s" class="sb-widget %2$s">', 'after_widget' => '</div>', 'before_title' => '<h4 class="widget-title"><span>', 'after_title' => '</span></h4>'));
+    register_sidebar(array('name' => 'Home 7 - Second Column (Bottom)', 'id' => 'home-7', 'before_widget' => '<div id="%1$s" class="sb-widget %2$s">', 'after_widget' => '</div>', 'before_title' => '<h4 class="widget-title"><span>', 'after_title' => '</span></h4>'));
+    register_sidebar(array('name' => 'Top Header Ad', 'id' => 'top_ad_sidebar', 'description' => '', 'before_widget' => '<div id="%1$s" class="clearfix %2$s">', 'after_widget' => '</div>', 'before_title' => '<h4 class="widget-title"><span>', 'after_title' => '</span></h4>'));
+    register_sidebar(array('name' => 'Pop Ad', 'id' => 'pop_ad_sidebar', 'description' => '', 'before_widget' => '<div id="%1$s" class="clearfix pop_ad">', 'after_widget' => '</div>', 'before_title' => '', 'after_title' => ''));
+    register_sidebar(array('name' => 'Anuncios antes del editorial', 'id' => 'home-8', 'before_widget' => '<div id="%1$s" class="w3-col">', 'after_widget' => '</div>', 'before_title' => '<h4 class="widget-title"><span>', 'after_title' => '</span></h4>'));
+}
+add_action('widgets_init', 'cyc_widgets_init', 99);
+
+/***** Registrar Widgets adicionales *****/
+function cyc_register_widgets() {
+    register_widget( 'cyc_posts_large' );
+}
+add_action( 'widgets_init', 'cyc_register_widgets' );
+
+/***** Incluir Widgets adicionales *****/
+require_once( 'includes/widgets/cyc-posts-large.php' );
 
 /***** Plugins requeridos *****/
 function cyc_check_required_plugins()
