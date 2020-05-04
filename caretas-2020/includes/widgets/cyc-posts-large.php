@@ -28,35 +28,25 @@ class cyc_posts_large extends WP_Widget
         $img_placeholder = get_stylesheet_directory_uri() . '/assets/images/img_placeholder.jpg';
         
         if (function_exists('z_get_zone_query') && z_get_zone($category)) {
-            $posts_in_zone = z_get_posts_in_zone($category, array('posts_per_page' => 1));
-            if (!empty($posts_in_zone)) : foreach ($posts_in_zone as $post) :
-                setup_postdata($post);
-                    $large_post = array(
-                        'id'        => $post->ID,
-                        'excerpt'   => $post->post_excerpt,
-                        'link'      => get_the_permalink($post->ID),
-                        'title'     => get_the_title($post->ID),
-                        'image'     => has_post_thumbnail($post->ID) ?
-                            get_the_post_thumbnail_url() : $img_placeholder,
-                    );
-                endforeach;
-            endif;
+            $posts = z_get_posts_in_zone($category, array('posts_per_page' => 1, 'offset' => $offset));
         } else {
-            $posts_in_cat = new WP_Query(array('category_name' => $category, 'posts_per_page' => 1, 'offset' => $offset));
-            if ($posts_in_cat->have_posts()) : while ($posts_in_cat->have_posts()) : $posts_in_cat->the_post();
-                    $id_post = get_the_ID();
-                    $excerpt = get_the_excerpt();
-                endwhile;
-            endif;
+            $posts = get_posts(array('category_name' => $category, 'posts_per_page' => 1, 'offset' => $offset));
         }
+        
+        if (!empty($posts)) : foreach ($posts as $post) :
+            $large_post = array(
+                'id'        => $post->ID,
+                'excerpt'   => $post->post_excerpt,
+                'link'      => get_the_permalink($post->ID),
+                'title'     => get_the_title($post->ID),
+                'image'     => has_post_thumbnail($post->ID) ? get_the_post_thumbnail_url($post) : $img_placeholder,
+            );
+        endforeach; endif;
 
         echo $before_widget;
         if (!empty($title)) {
             echo $before_title . esc_attr($title) . $after_title;
-        }
-        $args = array('posts_per_page' => '1', 'offset' => $offset, 'cat' => $category);
-        //$widget_loop = new WP_Query($args); 
-?>
+        } ?>
         <div class="mh-fp-large-widget clearfix cyc_posts_large">
             <article <?php post_class('content-lead'); ?>>
                 <div class="content-thumb content-lead-thumb">
@@ -77,9 +67,7 @@ class cyc_posts_large extends WP_Widget
                     <a href="<?php echo $large_post['link']; ?>" title="<?php echo $large_post['title']; ?>" rel="bookmark"><?php echo $large_post['title']; ?></a>
                 </h3>
                 <?php if ('' != $mostrar_copete) : ?>
-                    <div class="content-lead-excerpt">
-                        <?php echo cyc_get_paragraph($excerpt) ?>
-                    </div>
+                    <div class="content-lead-excerpt"><?php echo $large_post['excerpt'] ?></div>
                 <?php endif; ?>
             </article>
             <hr class="mh-separator">
@@ -87,8 +75,7 @@ class cyc_posts_large extends WP_Widget
             //endwhile;
             wp_reset_postdata(); ?>
         </div>
-        <?php
-            echo $after_widget;
+        <?php echo $after_widget;
     }
 
     function update($new_instance, $old_instance)
@@ -140,5 +127,7 @@ class cyc_posts_large extends WP_Widget
             <label for="<?php echo esc_attr( $this->get_field_id( 'mostrar_copete' ) ); ?>">Mostrar Copete</label>
         </p> <?php
     }
+
 }
+
 ?>

@@ -52,6 +52,31 @@ p.header-date {
     margin-right: 10px;
 }
 
+.thumb-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: -35px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    background: #000;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 27px;
+    z-index: 2;
+    color: #dd0000;
+}
+.content-thumb a {
+    position: relative;
+    display: block;
+}
+.thumb-icon i {
+    margin-left: 5px;
+}
+
 
 @media only screen and (max-width: 767px) {
     .visible-desktop {

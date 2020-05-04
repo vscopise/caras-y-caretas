@@ -1064,7 +1064,10 @@ body {
     width: 100%;
     height: 100%;
 }
-
+h3.content-lead-title {
+    font-size: 1.9rem;
+    margin-bottom: 10px;
+}
 
 @media only screen and (max-width: 768px) {
     .cyc_posts_grid .mh-1-2 .mh-section.mh-group {

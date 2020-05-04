@@ -134,13 +134,58 @@ function cyc_widgets_init()
 add_action('widgets_init', 'cyc_widgets_init', 99);
 
 /***** Registrar Widgets adicionales *****/
-function cyc_register_widgets() {
-    register_widget( 'cyc_posts_large' );
+function cyc_register_widgets()
+{
+    register_widget('cyc_posts_large');
+    register_widget('cyc_featured_cat');
 }
-add_action( 'widgets_init', 'cyc_register_widgets' );
+add_action('widgets_init', 'cyc_register_widgets');
 
 /***** Incluir Widgets adicionales *****/
-require_once( 'includes/widgets/cyc-posts-large.php' );
+require_once('includes/widgets/cyc-posts-large.php');
+require_once('includes/widgets/cyc-featured-cat.php');
+
+/***** Formato de las notas *****/
+function cyc_add_post_formats()
+{
+    add_theme_support('post-formats', array('gallery', 'video'));
+}
+add_action('after_setup_theme', 'cyc_add_post_formats', 20);
+
+/***** Metabox del video destacado *****/
+function cyc_video_mb()
+{
+    add_meta_box(
+        'featuredVideo_id',
+        'Video destacado',
+        'cyc_video_show_mb',
+        'post',
+        'normal',
+        'core'
+    );
+}
+
+function cyc_video_show_mb($post)
+{
+    $featuredVideoURL = get_post_meta($post->ID, '_featuredVideoURL', true);
+
+    wp_nonce_field(plugin_basename(__FILE__), 'featuredVideo_nonce');
+    ?><p>
+        <label for=""><?php _e('Video URL', 'mh-magazine-lite') ?></label>
+        <input class="widefat" type="text" name="featured_video_url" id="local_evento" value="<?php echo $featuredVideoURL ?>" />
+    </p><?php
+}
+
+function cyc_video_save_postdata($post_id)
+{
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (!wp_verify_nonce($_POST['featuredVideo_nonce'], plugin_basename(__FILE__))) return;
+
+    update_post_meta($post_id, '_featuredVideoURL', htmlspecialchars(filter_input(INPUT_POST, 'featured_video_url')));
+}
+add_action('add_meta_boxes', 'cyc_video_mb');
+add_action('save_post', 'cyc_video_save_postdata');
 
 /***** Plugins requeridos *****/
 function cyc_check_required_plugins()
