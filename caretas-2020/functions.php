@@ -109,7 +109,7 @@ function cyc_header_ticker()
     die();
 }
 add_action('wp_ajax_nopriv_cyc_header_ticker', 'cyc_header_ticker');
-add_action('wp_ajax_cyc_cyc_header_ticker', 'cyc_header_ticker');
+add_action('wp_ajax_cyc_header_ticker', 'cyc_header_ticker');
 
 /***** Carga Ajax del Home bottom *****/
 function cyc_home_bottom()
@@ -120,7 +120,7 @@ function cyc_home_bottom()
     die();
 }
 add_action('wp_ajax_nopriv_cyc_home_bottom', 'cyc_home_bottom');
-add_action('wp_ajax_cyc_cyc_home_bottom', 'cyc_home_bottom');
+add_action('wp_ajax_cyc_home_bottom', 'cyc_home_bottom');
 
 /***** Zonas de Widgets adicionales *****/
 function cyc_widgets_init()
@@ -138,12 +138,14 @@ function cyc_register_widgets()
 {
     register_widget('cyc_posts_large');
     register_widget('cyc_featured_cat');
+    register_widget('cyc_posts_grid');
 }
 add_action('widgets_init', 'cyc_register_widgets');
 
 /***** Incluir Widgets adicionales *****/
 require_once('includes/widgets/cyc-posts-large.php');
 require_once('includes/widgets/cyc-featured-cat.php');
+require_once('includes/widgets/cyc-posts-grid.php');
 
 /***** Formato de las notas *****/
 function cyc_add_post_formats()
@@ -179,6 +181,8 @@ function cyc_video_show_mb($post)
 function cyc_video_save_postdata($post_id)
 {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (!isset($_POST['featuredVideo_nonce'])) return;
 
     if (!wp_verify_nonce($_POST['featuredVideo_nonce'], plugin_basename(__FILE__))) return;
 

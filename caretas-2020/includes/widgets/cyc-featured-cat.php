@@ -26,40 +26,55 @@ class cyc_featured_cat extends WP_Widget
         $posts = get_posts(array('category_name' => $cat, 'posts_per_page' => 4));
 
         $img_placeholder = get_stylesheet_directory_uri() . '/assets/images/img_placeholder.jpg';
+
+        $post_format = get_post_format($posts[0]->ID);
+        $featuredVideoURL = get_post_meta($posts[0]->ID, '_featuredVideoURL', true);
+        $youtube_video_id = substr( $featuredVideoURL, strrpos( $featuredVideoURL, '/' ) );
+
         $img0_url = has_post_thumbnail($posts[0]->ID) ? get_the_post_thumbnail_url($posts[0]) : $img_placeholder;
 ?>
         <div class="featured_cat visible-desktop sb-widget">
             <h4 class="widget-title">
                 <span><?php echo get_the_title($posts[0]->ID) ?></span>
             </h4>
-            <div class="mh-fp-large-widget clearfix cyc_posts_large">
-                <article>
-                    <div class="content-thumb content-lead-thumb">
-                        <a href="<?php echo get_the_permalink($posts[0]->ID) ?>" title="<?php echo get_the_title($posts[0]->ID); ?>">
-                            <img src="<?php echo $img0_url; ?>" alt="<?php echo get_the_title($posts[0]->ID); ?>" />
-                            <?php
-                            $post_format = get_post_format($posts[0]->ID);
-                            $featuredVideoURL = get_post_meta($posts[0]->ID, '_featuredVideoURL', true);
-                            ?>
-                            <?php if ($post_format == 'video' && $featuredVideoURL != '') : ?>
-                                <span class="thumb-icon"><i class="fa fa-play"></i></span>
-                            <?php elseif ($post_format == 'gallery' && $gallery = get_post_gallery_images($posts[0]->ID)) : ?>
-                                <span class="thumb-icon"><i class="fa fa-camera"></i></span>
-                            <?php endif; ?>
-                        </a>
-                    </div>
-                </article>
+            <?php if ( $post_format == 'video' && $featuredVideoURL != '' ) : ?>
+                <div class="youtube-container">
+                    <iframe src="https://www.youtube.com/embed<?php echo $youtube_video_id ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            <?php else : ?>
+                <div class="mh-fp-large-widget clearfix cyc_posts_large">
+                    <article>
+                        <div class="content-thumb content-lead-thumb">
+                            <a href="<?php echo get_the_permalink($posts[0]->ID) ?>" title="<?php echo get_the_title($posts[0]->ID); ?>">
+                                <img src="<?php echo $img0_url; ?>" alt="<?php echo get_the_title($posts[0]->ID); ?>" />
+                            </a>
+                        </div>
+                    </article>
+                </div>
+        	<?php endif; ?>
+            <div class="sharing-links">
+                <a href="" target="_blank" class="facebook"><i class="fa fa-facebook-square"></i></a>
+                <a href="" target="_blank" class="twitter"><i class="fa fa-twitter-square"></i></a>
+                <a href="" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
             </div>
-            <div class="sharing">Sharing</div>
             <h4 class="widget-title">
                 <span>Más de <?php echo $cat ?></span>
             </h4>
             <div class="mh-section mh-group">
                 <?php $i = 1;
                 while ($i < 4) : ?>
+                <?php 
+                $post_format = get_post_format($posts[$i]->ID);
+                $featuredVideoURL = get_post_meta($posts[$i]->ID, '_featuredVideoURL', true);
+                if ( $post_format == 'video' && $featuredVideoURL != '' ) {
+                    
+                    $img_url = 'http://i3.ytimg.com/vi'.$youtube_video_id.'/maxresdefault.jpg';
+                } else {
+                    $img_url = has_post_thumbnail($posts[$i]->ID) ? get_the_post_thumbnail_url($posts[$i]) : $img_placeholder;
+                }
+                ?>
                     <div class="mh-col mh-1-3">
-                        <a href="" title="">
-                            <?php $img_url = has_post_thumbnail($posts[$i]->ID) ? get_the_post_thumbnail_url($posts[$i]) : $img_placeholder; ?>
+                        <a href="<?php echo get_the_permalink($posts[$i]->ID); ?>" title="<?php echo get_the_title($posts[$i]->ID); ?>">
                             <div class="content-thumb">
                                 <img src="<?php echo $img_url; ?>" />
                             </div>
@@ -99,5 +114,6 @@ class cyc_featured_cat extends WP_Widget
                 ?>
             </select>
         </p> <?php
-            }
-        }
+    }
+
+}

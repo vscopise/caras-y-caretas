@@ -1068,8 +1068,50 @@ h3.content-lead-title {
     font-size: 1.9rem;
     margin-bottom: 10px;
 }
+.featured_cat .sharing-links {
+    margin: 20px 0 20px;
+}
+.featured_cat .sharing-links a i {
+    font-size: 32px;
+    line-height: 32px;
+}
+a.facebook {
+    color: #3b5998;
+}
+a.twitter {
+    color: #00acee;
+}
+a.instagram {
+    color: #3f729b;
+}
+.mh_newsdesk_lite_custom_grid .mh-col .mh-col h3.content-lead-title {
+    font-size: 1rem;
+}
+.mh_newsdesk_lite_custom_grid .left,
+.mh_newsdesk_lite_custom_grid .right {
+    display: flex;
+}
+.mh_newsdesk_lite_custom_grid .right {
+    flex-direction: row-reverse;
+}
+.mh_newsdesk_lite_custom_grid .right .mh-col,
+.mh_newsdesk_lite_custom_grid .right .mh-col .mh-col:first-child {
+    margin-left: 0;
+}
+.mh_newsdesk_lite_custom_grid .right .mh-col:first-child,
+.mh_newsdesk_lite_custom_grid .right .mh-col .mh-col:last-child {
+    margin-left: 2.5%;
+}
+    
 
 @media only screen and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 768px) {
+    .mh_newsdesk_lite_custom_grid .left,
+    .mh_newsdesk_lite_custom_grid .right {
+        display: block;
+    }
     .cyc_posts_grid .mh-1-2 .mh-section.mh-group {
         display: none;
     }

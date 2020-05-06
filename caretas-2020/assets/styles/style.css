@@ -76,6 +76,27 @@ p.header-date {
 .thumb-icon i {
     margin-left: 5px;
 }
+.youtube-container {
+	position: relative;
+	padding-bottom: 56.25%; /*panorámico*/
+	padding-top: 25px;
+	height: 0;
+}
+.youtube-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.featured_cat,
+.mh_newsdesk_lite_posts_large, 
+.cyc_posts_grid {
+    border-bottom: 1px dotted #cdcdcd;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
 
 
 @media only screen and (max-width: 767px) {

@@ -70,10 +70,7 @@ class cyc_posts_large extends WP_Widget
                     <div class="content-lead-excerpt"><?php echo $large_post['excerpt'] ?></div>
                 <?php endif; ?>
             </article>
-            <hr class="mh-separator">
-            <?php
-            //endwhile;
-            wp_reset_postdata(); ?>
+            <?php wp_reset_postdata(); ?>
         </div>
         <?php echo $after_widget;
     }
